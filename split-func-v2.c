@@ -50,7 +50,7 @@ char **split2(const char *names, const char *delim)
     
     while( str != NULL )
     {
-        str = strtok(NULL, ",");
+        str = strtok(NULL, delim);
 
         word = NULL;
         if(str != NULL)
