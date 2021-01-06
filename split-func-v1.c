@@ -31,12 +31,16 @@ int main(void)
     }
     */
 
+    puts(names);
+
     if ((ppstr = split(names, ",")) == NULL) 
     {
         fprintf(stderr, "cannot split!..\n");
         exit(EXIT_FAILURE);
     }
 
+    puts(names);
+    
     for (i = 0; ppstr[i] != NULL; ++i)
     {
         puts(ppstr[i]);
@@ -57,7 +61,14 @@ char **split(char *str, const char *delim)
     }
 
     int wordCount = 0;
-    char **words = (char**) malloc((wordCount + 1) * sizeof(char*));
+    char **words;
+    char **temp;
+    
+    if( (words = (char**) malloc((wordCount + 1) * sizeof(char*))) == NULL )
+    {
+        return NULL;
+    }
+
     words[wordCount] = tmpStr;
 
     while( tmpStr != NULL )
@@ -65,7 +76,14 @@ char **split(char *str, const char *delim)
         tmpStr = strtok(NULL, delim);
 
         wordCount++;
-        words = (char**) realloc(words, (wordCount + 1) * sizeof(char*));
+        
+        if( (temp = (char**) realloc(words, (wordCount + 1) * sizeof(char*))) == NULL )
+        {
+            free(words);
+            return NULL;
+        }
+        
+        words = temp;
         words[wordCount] = tmpStr;
     }
 

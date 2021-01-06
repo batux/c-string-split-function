@@ -10,11 +10,15 @@ int main()
     int i;
     char **ppstr;
 
+    puts(names);
+
     if ((ppstr = split2(names, ",")) == NULL) 
     {
         fprintf(stderr, "cannot split!..\n");
         exit(EXIT_FAILURE);
     }
+
+    puts(names);
 
     for (i = 0; ppstr[i] != NULL; ++i)
     {   
@@ -33,18 +37,36 @@ int main()
 
 char **split2(const char *names, const char *delim)
 {
-    char *tmpVal = (char *)malloc(strlen(names) + 1);
+    char *tmpVal;
+    if( (tmpVal = (char *)malloc(strlen(names) + 1)) == NULL )
+    {
+        return NULL;
+    }
     strcpy(tmpVal, names);
 
     char *str;
     str = strtok(tmpVal, delim);
+    if(str == NULL)
+    {
+        return NULL;
+    }
 
     int wordCount = 1;
     char **words;
-    words = (char**) malloc((wordCount + 1) * sizeof(char*));
+    char **temp;
+    
+    if( (words = (char**) malloc((wordCount + 1) * sizeof(char*))) == NULL )
+    {
+        free(tmpVal);
+        return NULL;
+    }
 
-    int strSize = strlen(str);  
-    char *word = (char*) malloc((strSize + 1) * sizeof(char));
+    char *word;
+    if( (word = (char*) malloc((strlen(str) + 1) * sizeof(char))) == NULL )
+    {
+        free(tmpVal);
+        return NULL;
+    }
     strcpy(word, str);
     words[0] = word;
     
@@ -55,15 +77,25 @@ char **split2(const char *names, const char *delim)
         word = NULL;
         if(str != NULL)
         {
-            int strSize = strlen(str);         
-            word = (char*) malloc((strSize + 1) * sizeof(char));
+            if( (word = (char*) malloc((strlen(str) + 1) * sizeof(char))) == NULL )
+            {
+                free(tmpVal);
+                free(words);
+                return NULL;
+            }
             strcpy(word, str);
             words[wordCount] = word;
         }
         words[wordCount] = word;
 
         wordCount++;
-        words = (char**) realloc(words, (wordCount + 1) * sizeof(char*));
+        if( (temp = (char**) realloc(words, (wordCount + 1) * sizeof(char*))) == NULL )
+        {
+            free(tmpVal);
+            free(words);
+            return NULL;
+        }
+        words = temp;
     }
 
     return words;
