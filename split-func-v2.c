@@ -37,34 +37,34 @@ int main()
 
 char **split2(const char *names, const char *delim)
 {
-    char *tmpVal;
-    if( (tmpVal = (char *)malloc(strlen(names) + 1)) == NULL )
+    char *tmp_val;
+    if( (tmp_val = (char *)malloc(strlen(names) + 1)) == NULL )
     {
         return NULL;
     }
-    strcpy(tmpVal, names);
+    strcpy(tmp_val, names);
 
     char *str;
-    str = strtok(tmpVal, delim);
+    str = strtok(tmp_val, delim);
     if(str == NULL)
     {
         return NULL;
     }
 
-    int wordCount = 1;
+    int word_count = 1;
     char **words;
     char **temp;
     
-    if( (words = (char**) malloc((wordCount + 1) * sizeof(char*))) == NULL )
+    if( (words = (char**) malloc((word_count + 1) * sizeof(char*))) == NULL )
     {
-        free(tmpVal);
+        free(tmp_val);
         return NULL;
     }
 
     char *word;
     if( (word = (char*) malloc((strlen(str) + 1) * sizeof(char))) == NULL )
     {
-        free(tmpVal);
+        free(tmp_val);
         return NULL;
     }
     strcpy(word, str);
@@ -79,19 +79,19 @@ char **split2(const char *names, const char *delim)
         {
             if( (word = (char*) malloc((strlen(str) + 1) * sizeof(char))) == NULL )
             {
-                free(tmpVal);
+                free(tmp_val);
                 free(words);
                 return NULL;
             }
             strcpy(word, str);
-            words[wordCount] = word;
+            words[word_count] = word;
         }
-        words[wordCount] = word;
+        words[word_count] = word;
 
-        wordCount++;
-        if( (temp = (char**) realloc(words, (wordCount + 1) * sizeof(char*))) == NULL )
+        word_count++;
+        if( (temp = (char**) realloc(words, (word_count + 1) * sizeof(char*))) == NULL )
         {
-            free(tmpVal);
+            free(tmp_val);
             free(words);
             return NULL;
         }
