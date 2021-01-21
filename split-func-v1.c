@@ -52,39 +52,39 @@ int main(void)
 
 char **split(char *str, const char *delim)
 {
-    char *tmpStr;
-    tmpStr = strtok(str, delim);
+    char *tmp_str;
+    tmp_str = strtok(str, delim);
 
-    if(tmpStr == NULL)
+    if(tmp_str == NULL)
     {
         return NULL;
     }
 
-    int wordCount = 0;
+    int word_count = 0;
     char **words;
     char **temp;
     
-    if( (words = (char**) malloc((wordCount + 1) * sizeof(char*))) == NULL )
+    if( (words = (char**) malloc((word_count + 1) * sizeof(char*))) == NULL )
     {
         return NULL;
     }
 
-    words[wordCount] = tmpStr;
+    words[word_count] = tmp_str;
 
-    while( tmpStr != NULL )
+    while( tmp_str != NULL )
     {
-        tmpStr = strtok(NULL, delim);
+        tmp_str = strtok(NULL, delim);
 
-        wordCount++;
+        word_count++;
         
-        if( (temp = (char**) realloc(words, (wordCount + 1) * sizeof(char*))) == NULL )
+        if( (temp = (char**) realloc(words, (word_count + 1) * sizeof(char*))) == NULL )
         {
             free(words);
             return NULL;
         }
         
         words = temp;
-        words[wordCount] = tmpStr;
+        words[word_count] = tmp_str;
     }
 
     return words;
